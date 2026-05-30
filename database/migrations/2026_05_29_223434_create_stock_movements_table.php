@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->text('note')->nullable();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
             $table->foreignId('admin_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('note')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_type_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

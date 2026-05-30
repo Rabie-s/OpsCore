@@ -12,6 +12,7 @@ class StockMovement extends Model
         'quantity',
         'note',
         'product_id',
+        'warehouse_id',
         'admin_id',
     ];
 
@@ -27,5 +28,10 @@ class StockMovement extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 }

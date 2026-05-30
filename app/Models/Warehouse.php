@@ -8,8 +8,15 @@ class Warehouse extends Model
 {
     protected $fillable = ['name', 'location', 'qr_token'];
 
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
+
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class, 'stock_movements')
+            ->distinct();
     }
 }

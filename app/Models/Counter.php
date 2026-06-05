@@ -17,4 +17,9 @@ class Counter extends Model
     {
         return $this->hasMany(Device::class);
     }
+
+    public function getLabelAttribute(): string
+    {
+        return $this->department?->name . ' — ' . $this->counter_number;
+    }
 }

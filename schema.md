@@ -12,6 +12,7 @@ This document describes the database structure for the OpsCore inventory managem
    - [stock_movements](#stock_movements)
 2. [Product Classification](#product-classification)
    - [product_types](#product_types)
+   - [stock_units](#stock_units)
 3. [User Management](#user-management)
    - [admins](#admins)
    - [users](#users)
@@ -57,16 +58,19 @@ Stores inventory products/items.
 | `note` | TEXT | NULLABLE | Additional notes |
 | `is_active` | BOOLEAN | Default: TRUE | Active status |
 | `product_type_id` | BIGINT UNSIGNED | Foreign Key, NOT NULL | Reference to product_types |
+| `stock_unit_id` | BIGINT UNSIGNED | Foreign Key, NOT NULL | Reference to stock_units |
 | `created_at` | TIMESTAMP | NULL | Creation timestamp |
 | `updated_at` | TIMESTAMP | NULL | Last update timestamp |
 
 **Relationships:**
 - Belongs to `product_type`
+- Belongs to `stock_unit`
 - Has many `stock_movements`
 - Belongs to many `warehouses` (through `stock_movements`)
 
 **Constraints:**
 - Foreign key: `product_type_id` → `product_types.id` (CASCADE DELETE)
+- Foreign key: `stock_unit_id` → `stock_units.id` (CASCADE DELETE)
 
 ---
 
@@ -116,6 +120,23 @@ Categories for organizing products.
 |--------|------|------------|-------------|
 | `id` | BIGINT UNSIGNED | Primary Key, Auto Increment | Unique identifier |
 | `name` | VARCHAR(255) | NOT NULL | Type name |
+| `created_at` | TIMESTAMP | NULL | Creation timestamp |
+| `updated_at` | TIMESTAMP | NULL | Last update timestamp |
+
+**Relationships:**
+- Has many `products`
+
+---
+
+### stock_units
+
+Units of measurement for inventory products (e.g., pieces, boxes, kilograms, liters).
+
+| Column | Type | Attributes | Description |
+|--------|------|------------|-------------|
+| `id` | BIGINT UNSIGNED | Primary Key, Auto Increment | Unique identifier |
+| `name` | VARCHAR(255) | NOT NULL | Unit name (e.g., "Piece", "Box", "Kilogram") |
+| `symbol` | VARCHAR(255) | NOT NULL | Unit symbol (e.g., "pcs", "box", "kg") |
 | `created_at` | TIMESTAMP | NULL | Creation timestamp |
 | `updated_at` | TIMESTAMP | NULL | Last update timestamp |
 
@@ -317,13 +338,13 @@ Password reset tokens (standard).
          │ *
 ┌────────▼────────┐         ┌──────────────┐         ┌─────────────┐
 │    products     │◄────────│stock_movements│────────►│  warehouses │
-└─────────────────┘    *    └──────┬────────┘    *    └─────────────┘
-                       1            │ 1                    1
-                                    │ *
-                                    │
-                              ┌────▼─────┐
-                              │  admins  │
-                              └──────────┘
+└────────┬────────┘    *    └──────┬────────┘    *    └─────────────┘
+         │ 1                 1     │ 1                    1
+         │                         │ *
+         │ *                       │
+┌────────▼─────────┐             ┌─▼─────┐
+│   stock_units   │             │admins │
+└─────────────────┘             └───────┘
 
 ┌──────────────┐         ┌──────────────┐         ┌──────────────┐
 │ departments  │◄────────│   counters   │◄────────│   devices    │

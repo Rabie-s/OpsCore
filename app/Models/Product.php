@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StockMovementType;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
     protected $fillable = [
@@ -28,6 +29,11 @@ class Product extends Model
     public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function stockUnit()
+    {
+        return $this->belongsTo(StockUnit::class);
     }
 
     public function warehouses()

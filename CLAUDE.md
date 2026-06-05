@@ -72,7 +72,8 @@ php artisan make:migration create_table_name
 ### Domain Models
 
 **Inventory Core**:
-- `Product` - Inventory items with `product_type`, `image`, `note`, `is_active`
+- `Product` - Inventory items with `product_type`, `stock_unit`, `image`, `note`, `is_active`
+- `StockUnit` - Units of measurement for products (e.g., pieces, boxes, kg) with `name` and `symbol`
 - `Warehouse` - Storage locations with `qr_token` for scanning
 - `StockMovement` - Tracks all stock changes (In/Out/Init) with quantity, notes, and references
 
@@ -117,8 +118,8 @@ Implemented in `Product::getStockInWarehouse(int $warehouseId)`. The `warehouse_
 
 ```
 product_types ──< products >── stock_movements ──< warehouses
-                                      │
-                                      └── admins
+     │                     │
+     └── stock_units       └── admins
 
 departments ──< counters ──< devices
      │                    │

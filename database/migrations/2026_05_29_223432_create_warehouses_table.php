@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('location');
-            $table->string('qr_token')->unique();
+            $table->string('qr_code')->nullable()->unique();
             $table->timestamps();
         });
     }

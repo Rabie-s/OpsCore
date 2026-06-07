@@ -13,6 +13,7 @@ class Product extends Model
         'image',
         'note',
         'is_active',
+        'stock_unit_id',
         'product_type_id',
     ];
 
@@ -56,6 +57,26 @@ class Product extends Model
 
         $out = $this->stockMovements()
             ->where('warehouse_id', $warehouseId)
+            ->where('type', StockMovementType::Out)
+            ->sum('quantity');
+
+        return $in + $init - $out;
+    }
+
+     public function getStock()
+    {
+        $in = $this->stockMovements()
+            
+            ->where('type', StockMovementType::In)
+            ->sum('quantity');
+
+        $init = $this->stockMovements()
+            
+            ->where('type', StockMovementType::Init)
+            ->sum('quantity');
+
+        $out = $this->stockMovements()
+            
             ->where('type', StockMovementType::Out)
             ->sum('quantity');
 

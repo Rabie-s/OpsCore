@@ -7,6 +7,14 @@ use App\Enums\StockMovementType;
 
 class StockMovement extends Model
 {
+
+    protected static function booted(): void
+    {
+        static::creating(function (Product $product) {
+            $product->admin_id = auth()->guard('admin')->id();
+        });
+    }
+
     protected $fillable = [
         'type',
         'quantity',

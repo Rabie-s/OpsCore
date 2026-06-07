@@ -4,15 +4,16 @@ namespace App\Filament\Resources\StockMovements\Pages;
 
 use App\Filament\Resources\StockMovements\StockMovementResource;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use App\Services\StockMovementService;
 
 class CreateStockMovement extends CreateRecord
 {
     protected static string $resource = StockMovementResource::class;
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function handleRecordCreation($data): Model
     {
-        $data['admin_id'] = auth()->guard('admin')->id();
-
-        return $data;
+        $service = new StockMovementService();
+        return $service->stockMovement($data);
     }
 }

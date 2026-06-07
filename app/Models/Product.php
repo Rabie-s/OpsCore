@@ -63,23 +63,28 @@ class Product extends Model
         return $in + $init - $out;
     }
 
-     public function getStock()
+    public function getStock()
     {
         $in = $this->stockMovements()
-            
             ->where('type', StockMovementType::In)
             ->sum('quantity');
 
         $init = $this->stockMovements()
-            
             ->where('type', StockMovementType::Init)
             ->sum('quantity');
 
         $out = $this->stockMovements()
-            
             ->where('type', StockMovementType::Out)
             ->sum('quantity');
 
         return $in + $init - $out;
+    }
+
+    public function getWarehouseStockAttribute()
+    {
+        return $this->warehouses->map(fn($warehouse) => [
+            'warehouse_name' => $warehouse->name,
+            'stock'          => $this->getStockInWarehouse($warehouse->id),
+        ]);
     }
 }

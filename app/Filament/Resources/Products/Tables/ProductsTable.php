@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use App\Models\Warehouse;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -19,8 +21,8 @@ class ProductsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('getStock')
-                    ->state(fn($record)=>$record->getStock()), 
+                TextColumn::make('stock')
+                    ->state(fn($record) => $record->getStock()),
                 TextColumn::make('productType.name')
                     ->numeric()
                     ->sortable(),
@@ -40,7 +42,13 @@ class ProductsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('product_type')
+                    ->relationship('productType', 'name')
+                    ->label('Product Type'),
+                SelectFilter::make('warehouse')
+                    ->query(fn ($query) => $query->whereHas('warehouses'))
+                    ->options(Warehouse::pluck('name', 'id'))
+                    ->label('Warehouse'),
             ])
             ->recordActions([
                 ViewAction::make(),

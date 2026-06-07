@@ -18,11 +18,11 @@ class StockMovementInfolist
                 TextEntry::make('note')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('product_id')
+                TextEntry::make('product.name')
                     ->numeric(),
-                TextEntry::make('warehouse_id')
+                TextEntry::make('warehouse.name')
                     ->numeric(),
-                TextEntry::make('admin_id')
+                TextEntry::make('admin.name')
                     ->numeric(),
                 TextEntry::make('created_at')
                     ->dateTime()

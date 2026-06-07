@@ -21,13 +21,13 @@ class StockMovementsTable
                 TextColumn::make('quantity')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('product_id')
+                TextColumn::make('product.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('warehouse_id')
+                TextColumn::make('warehouse.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('admin_id')
+                TextColumn::make('admin.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

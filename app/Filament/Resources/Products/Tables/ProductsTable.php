@@ -29,7 +29,8 @@ class ProductsTable
                 TextColumn::make('stockUnit.name')
                     ->numeric()
                     ->sortable(),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                ->disk('public'),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('created_at')

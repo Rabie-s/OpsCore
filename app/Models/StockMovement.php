@@ -10,8 +10,8 @@ class StockMovement extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (Product $product) {
-            $product->admin_id = auth()->guard('admin')->id();
+        static::creating(function (StockMovement $movement) {
+            $movement->admin_id = auth()->guard('admin')->id();
         });
     }
 

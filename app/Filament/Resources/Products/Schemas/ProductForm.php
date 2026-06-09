@@ -47,11 +47,13 @@ class ProductForm
                                     ->required(),
                             ]),
                         FileUpload::make('image')
+                            ->disk('public')
+                            ->directory('products')
                             ->image(),
                         Textarea::make('note')
                             ->columnSpanFull(),
                         Toggle::make('is_active')
-                        ->default(true)
+                            ->default(true)
                             ->required(),
                     ]),
             ]);

@@ -17,6 +17,7 @@ class ProductInfolist
                 Section::make('Product Image')
                     ->schema([
                         ImageEntry::make('image')
+                            ->disk('public')
                             ->placeholder('-')
                             ->columnSpanFull(),
                     ]),

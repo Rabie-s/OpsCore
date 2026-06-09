@@ -4,13 +4,20 @@ namespace App\Services;
 
 use App\Enums\StockMovementType;
 use App\Models\Product;
+use App\Models\StockMovement;
 
 class StockMovementService
 {
-    public function stockMovement($data)
+    public function addStockMovement($data): void
     {
         $this->validateStockAvailability($data);
-        dd($data);
+        StockMovement::create([
+            'product_id' => $data['product_id'],
+            'warehouse_id' => $data['warehouse_id'],
+            'type' => $data['type'],
+            'quantity' => $data['quantity'],
+            'note' => $data['note'] ?? null,
+        ]);
     }
 
     private function validateStockAvailability(array $data): void

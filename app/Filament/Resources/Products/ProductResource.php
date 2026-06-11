@@ -53,7 +53,6 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'sort' => Pages\BulkStockMovement::route('/bulk-stock-movement'),
             'index' => ListProducts::route('/'),
             'create' => CreateProduct::route('/create'),
             'view' => ViewProduct::route('/{record}'),

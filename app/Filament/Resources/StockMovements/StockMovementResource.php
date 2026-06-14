@@ -52,6 +52,7 @@ class StockMovementResource extends Resource
     public static function getPages(): array
     {
         return [
+            'bulk-stock-movement' => Pages\BulkStockMovement::route('/bulk-stock-movement'),
             'index' => ListStockMovements::route('/'),
             'create' => CreateStockMovement::route('/create'),
             'view' => ViewStockMovement::route('/{record}'),

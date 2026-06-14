@@ -8,6 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
+use App\Filament\Resources\StockMovements\StockMovementResource;
 
 class StockMovementsTable
 {
@@ -47,6 +49,10 @@ class StockMovementsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                Action::make('bulk_movement')
+                    ->label('Bulk Movement')
+                    ->icon('heroicon-o-arrows-right-left')
+                    ->url(fn() => StockMovementResource::getUrl('bulk-stock-movement')),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

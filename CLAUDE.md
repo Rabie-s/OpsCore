@@ -8,11 +8,13 @@ OpsCore is an inventory management system built with Laravel and Filament. It tr
 
 ## Tech Stack
 
-- **Framework**: Laravel 13.x
+- **Framework**: Laravel 13.x (PHP 8.3+)
 - **Admin Panel**: Filament 5.x (accessible at `/admin`)
+- **Frontend**: Inertia.js + Vue 3 + TailwindCSS 4.x + daisyUI
 - **Testing**: Pest 4.x
-- **Frontend**: Vite + TailwindCSS 4.x
+- **Build Tool**: Vite 8.x
 - **Database**: SQLite (default), uses in-memory SQLite for tests
+- **AI Tools**: Laravel Boost 2.x (AI-assisted development)
 
 ## Common Commands
 
@@ -97,7 +99,7 @@ Implemented in `Product::getStockInWarehouse(int $warehouseId)`. The `warehouse_
 
 ### Enums
 
-- `StockMovementType` - `In`, `Out`, `Init` (stored as lowercase strings)
+- `StockMovementType` - PHP 8.3 backed enum with cases: `In`, `Out`, `Init` (stored as lowercase strings `'in'`, `'out'`, `'init'`)
 
 ### Filament Admin Panel
 
@@ -107,12 +109,33 @@ Implemented in `Product::getStockInWarehouse(int $warehouseId)`. The `warehouse_
 - Widgets auto-discovered from `app/Filament/Widgets/`
 - Theme color: Amber
 
+### Custom Frontend (Inertia.js + Vue 3)
+
+- **Root template**: `resources/views/app.blade.php`
+- **Middleware**: `HandleInertiaRequests` (registered in `bootstrap/app.php`)
+- **Components**: `resources/js/Components/` - Reusable Vue components
+- **Pages**: `resources/js/Pages/` - Page components (including `Admin/` subdirectory)
+- **Controllers**: `app/Http/Controllers/Admin/` - Custom admin controllers (e.g., `WarehouseController`)
+- **Styling**: TailwindCSS 4.x with daisyUI component library
+- **Routing**: Custom routes in `routes/web.php` (e.g., `/admin/warehouse/{id}`)
+
+**Dual Interface Architecture**:
+- Filament panel at `/admin` - Full CRUD for all resources
+- Custom Inertia/Vue pages for specialized views (e.g., warehouse details with custom UI)
+
 ### Testing Configuration
 
 - Uses Pest with `tests/Pest.php` configuration
 - Feature tests run in `Feature` directory
 - Uses `RefreshDatabase` trait (currently commented out in Pest.php)
 - Database: SQLite in-memory for tests
+
+### Frontend Stack
+
+- **CSS Framework**: TailwindCSS 4.x (via Vite plugin)
+- **Component Library**: daisyUI 5.x - Use daisyUI component classes for all UI elements
+- **JavaScript**: Vue 3 with Inertia.js for SPA-like experience
+- **Icons**: Heroicons (via daisyUI)
 
 ### Key Relationships
 

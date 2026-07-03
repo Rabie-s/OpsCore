@@ -12,6 +12,13 @@ class CreateStockMovement extends CreateRecord
 {
     protected static string $resource = StockMovementResource::class;
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['admin_id'] = auth()->guard('admin')->id();
+
+        return $data;
+    }
+
     protected function handleRecordCreation(array $data): Model
     {
         try {

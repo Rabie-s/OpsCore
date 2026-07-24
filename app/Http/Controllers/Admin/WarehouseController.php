@@ -14,6 +14,12 @@ use App\Http\Requests\WithdrawStockRequest;
 
 class WarehouseController extends Controller
 {
+
+    public function allWarehouses()
+    {
+        $warehouses = Warehouse::select('id','name','location')->get();
+        return Inertia::render('Admin/Warehouse/Warehouses',compact('warehouses'));
+    }
     public function show($id)
     {
         $warehouse = Warehouse::select('id', 'name')->where('id', $id)->first();

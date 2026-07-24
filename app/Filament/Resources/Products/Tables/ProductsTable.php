@@ -12,7 +12,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-
+use Filament\Actions\Action;
 class ProductsTable
 {
     public static function configure(Table $table): Table
@@ -30,7 +30,7 @@ class ProductsTable
                     ->numeric()
                     ->sortable(),
                 ImageColumn::make('image')
-                ->disk('public'),
+                    ->disk('public'),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('created_at')
@@ -47,7 +47,7 @@ class ProductsTable
                     ->relationship('productType', 'name')
                     ->label('Product Type'),
                 SelectFilter::make('warehouse')
-                    ->query(fn ($query) => $query->whereHas('warehouses'))
+                    ->query(fn($query) => $query->whereHas('warehouses'))
                     ->options(Warehouse::pluck('name', 'id'))
                     ->label('Warehouse'),
             ])
@@ -56,6 +56,9 @@ class ProductsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                Action::make('warehouseReport')
+                    ->label('تقرير المخازن')
+                    ->url(fn() => route('warehouseStockReport')),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

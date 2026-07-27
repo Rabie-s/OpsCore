@@ -17,21 +17,23 @@ class WarehouseController extends Controller
 
     public function allWarehouses()
     {
-        $warehouses = Warehouse::select('id','name','location')->get();
-        return Inertia::render('Admin/Warehouse/Warehouses',compact('warehouses'));
+        $warehouses = Warehouse::select('id', 'name', 'location')->get();
+        return Inertia::render('Admin/Warehouse/Warehouses', compact('warehouses'));
     }
     public function show($id)
     {
         $warehouse = Warehouse::select('id', 'name')->where('id', $id)->first();
         $products = Product::whereHas('warehouses', function ($query) use ($id) {
             $query->where('warehouses.id', $id);
-        })
+        })->where('is_active', 1)
             ->with(['productType:id,name', 'stockUnit:id,symbol'])
-            ->get();
-
-        $products->each(function ($product) use ($id) {
-            $product->stock_in_warehouse = $product->getStockInWarehouse($id);
-        });
+            ->get()
+            ->map(function ($product) use ($id) {
+                $product->stock_in_warehouse = $product->getStockInWarehouse($id);
+                return $product;
+            })
+            ->filter(fn($product) => $product->stock_in_warehouse > 0)
+            ->values();
 
         return Inertia::render('Admin/Warehouse/Index', [
             'warehouse_id' => $id,

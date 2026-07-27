@@ -83,6 +83,7 @@ class StockMovementsRelationManager extends RelationManager
                     ->using(function ($data, RelationManager $livewire,CreateAction $action) {
                         try {
                             $data['product_id'] = $livewire->getOwnerRecord()->id;
+                            $data['admin_id'] = auth()->guard('admin')->id();
                             return app(StockMovementService::class)->addStockMovement($data);
                         } catch (\Exception $e) {
                             Notification::make()

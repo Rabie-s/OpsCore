@@ -19,6 +19,14 @@ class WarehouseInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+                TextEntry::make('qr_code')
+                    ->state(fn($record) => 'qr')
+                    ->formatStateUsing(function ($record) {
+                        return \LaraZeus\Qr\Facades\Qr::render(
+                            data: url("warehouse/{$record->id}"),
+                            options: \LaraZeus\Qr\Facades\Qr::getDefaultOptions()
+                        );
+                    }),
             ]);
     }
 }

@@ -6,7 +6,8 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use App\Models\Product;
 use App\Models\Warehouse;
-class WarehouseSheetExport implements FromCollection, WithHeadings, WithTitle
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+class WarehouseSheetExport implements FromCollection, WithHeadings, WithTitle, WithStrictNullComparison
 {
     protected Warehouse $warehouse;
 

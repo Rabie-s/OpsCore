@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Admins\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 
 class AdminInfolist
 {
@@ -11,15 +12,21 @@ class AdminInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
-                TextEntry::make('email')
-                    ->label('Email address'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                Section::make('Admin')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->Schema([
+                        TextEntry::make('name'),
+                        TextEntry::make('email')
+                            ->label('Email address'),
+                        TextEntry::make('created_at')
+                            ->dateTime()
+                            ->placeholder('-'),
+                        TextEntry::make('updated_at')
+                            ->dateTime()
+                            ->placeholder('-'),
+                    ])
+
             ]);
     }
 }

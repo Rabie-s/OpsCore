@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Admins\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 
 class AdminForm
 {
@@ -11,15 +12,23 @@ class AdminForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
-                TextInput::make('password')
-                    ->password()
-                    ->required(),
+
+                Section::make('Admin')
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('email')
+                            ->label('Email address')
+                            ->email()
+                            ->required(),
+                        TextInput::make('password')
+                            ->password()
+                            ->revealable()
+                            ->required(),
+                    ])
+
+
             ]);
     }
 }

@@ -20,24 +20,26 @@ class WarehouseTransactionExport implements FromCollection, WithHeadings, WithTi
     public function headings(): array
     {
         return [
-            'Product',
+            'Warehouse Name',
             'Transaction type',
             'Admin',
             'Product Name',
-            'Quantity'
+            'Quantity',
+            'Date'
         ];
     }
 
     public function collection()
     {
-        return StockMovement::select('type', 'quantity', 'warehouse_id', 'admin_id', 'product_id')
+        return StockMovement::select('type', 'quantity', 'created_at', 'warehouse_id', 'admin_id', 'product_id')
             ->with('admin:id,name', 'warehouse:id,name', 'product:id,name')->get()->map(function ($transaction) {
                 return [
                     'Warehouse Name: ' => $transaction->warehouse->name,
                     'Transaction type: ' => $transaction->type->name,
                     'Admin: ' => $transaction->admin->name,
                     'Product Name: ' => $transaction->product->name,
-                    'Quantity: ' => $transaction->quantity
+                    'Quantity: ' => $transaction->quantity,
+                    'Date: ' => $transaction->created_at->format('Y/m/d h:i A')
                 ];
             });
     }

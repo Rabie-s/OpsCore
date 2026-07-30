@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProductTypes;
 use App\Filament\Resources\ProductTypes\Pages\ManageProductTypes;
 use App\Models\ProductType;
 use BackedEnum;
+use Filament\Schemas\Components\Section;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -30,8 +31,12 @@ class ProductTypeResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
+                Section::make('Product Type')
+                    ->columnSpanFull()
+                    ->components([
+                        TextInput::make('name')
+                            ->required(),
+                    ])
             ]);
     }
 

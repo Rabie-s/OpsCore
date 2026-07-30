@@ -16,6 +16,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
+use Filament\Schemas\Components\Section;
 
 class StockUnitResource extends Resource
 {
@@ -30,10 +31,15 @@ class StockUnitResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('symbol')
-                    ->required(),
+                Section::make('Stock Unit')
+                ->columns(2)
+                    ->components([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('symbol')
+                            ->required(),
+                    ])
+                    ->columnSpanFull()
             ]);
     }
 

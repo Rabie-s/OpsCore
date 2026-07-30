@@ -59,6 +59,9 @@ class ProductsTable
                 Action::make('warehouseReport')
                     ->label('تقرير المخازن')
                     ->url(fn() => route('warehouseStockReport')),
+                    Action::make('warehouseReport')
+                    ->label('تقرير الحركات على المخازن')
+                    ->url(fn() => route('warehouseTransactionReport')),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

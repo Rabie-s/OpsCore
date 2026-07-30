@@ -43,7 +43,7 @@ class Product extends Model
             ->distinct();
     }
 
-    public function getStockInWarehouse(int $warehouseId)
+    public function getStockInWarehouse(int $warehouseId): int
     {
         $in = $this->stockMovements()
             ->where('warehouse_id', $warehouseId)
@@ -60,7 +60,7 @@ class Product extends Model
             ->where('type', StockMovementType::Out)
             ->sum('quantity');
 
-        return $in + $init - $out;
+        return (int) ($in + $init - $out);
     }
 
     public function getStock()
@@ -84,7 +84,7 @@ class Product extends Model
     {
         return $this->warehouses->map(fn($warehouse) => [
             'warehouse_name' => $warehouse->name,
-            'stock'          => $this->getStockInWarehouse($warehouse->id),
+            'stock' => $this->getStockInWarehouse($warehouse->id),
         ]);
     }
 }

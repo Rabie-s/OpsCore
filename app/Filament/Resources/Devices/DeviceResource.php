@@ -21,11 +21,12 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use UnitEnum;
+use Filament\Actions\Action;
 
 class DeviceResource extends Resource
 {
 
-    protected static string | UnitEnum | null $navigationGroup = 'HR';
+    protected static string|UnitEnum|null $navigationGroup = 'HR';
     protected static ?string $model = Device::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedComputerDesktop;
@@ -108,10 +109,15 @@ class DeviceResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+            ->bulkActions([
+                DeleteBulkAction::make(),
+            ])
+            ->headerActions([
+                Action::make('devicesReport')
+                    ->label('تقرير الاجهزة')
+                    ->url(fn() => route('devicesReport'))
+                    ->icon('heroicon-o-document-text')
+                    ->color('warning'),
             ]);
     }
 

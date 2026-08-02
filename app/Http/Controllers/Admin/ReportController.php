@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Exports\WarehousesReportExport;
 use App\Exports\WarehouseTransactionExport;
+use App\Exports\DevicesExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -19,5 +20,10 @@ class ReportController extends Controller
     {
         $currentDateTime = now()->format('Y-m-d H:i');
         return Excel::download(new WarehouseTransactionExport(), 'warehouse-transaction-report' . $currentDateTime . '.xlsx');
+    }
+
+    public function devicesReport()
+    {
+        return Excel::download(new DevicesExport, 'Devices.xlsx');
     }
 }

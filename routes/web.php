@@ -31,6 +31,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/export/warehouse-stock-report', [ReportController::class, 'warehouseStockReport'])->name('warehouseStockReport');
     Route::get('/export/warehouse-transaction-report', [ReportController::class, 'warehouseTransactionReport'])->name('warehouseTransactionReport');
+    Route::get('/export/devices-report', [ReportController::class, 'devicesReport'])->name('devicesReport');
 });
 
 

@@ -8,15 +8,15 @@ use App\Models\StockMovement;
 
 class StockMovementService
 {
-    public function addStockMovement($data): void
+    public function addStockMovement($data): StockMovement
     {
         $this->validateStockAvailability($data);
-        StockMovement::create([
+        return StockMovement::create([
             'product_id' => $data['product_id'],
             'warehouse_id' => $data['warehouse_id'],
             'type' => $data['type'],
             'quantity' => $data['quantity'],
-            'admin_id'=>$data['admin_id'],
+            'admin_id' => $data['admin_id'],
             'note' => $data['note'] ?? null,
         ]);
     }
@@ -26,7 +26,7 @@ class StockMovementService
         if ($data['type'] !== StockMovementType::Out) {
             return;
         }
-            
+
 
         $product = Product::find($data['product_id']);
 

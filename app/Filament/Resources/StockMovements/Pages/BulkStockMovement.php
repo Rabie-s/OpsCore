@@ -57,19 +57,25 @@ class BulkStockMovement extends Page implements HasForms
                                     ->label('Product')
                                     ->options(function (Get $get) {
                                         $warehouseId = $get('../../warehouse_id');
-                                        $type = $get('../../Type');
+                                        $movementType = $get('../../Type');
 
-                                        if ($type === StockMovementType::Out) {
+                                        // For stock OUT, only show products in this warehouse
+                                        if ($movementType === StockMovementType::Out) {
                                             return Product::select('id', 'name')
+                                            ->where('is_active', true)
                                                 ->whereHas(
                                                     'stockMovements',
                                                     fn(Builder $q) =>
                                                     $q->where('warehouse_id', $warehouseId)
                                                 )
-                                                ->pluck('name', 'id');
+                                                ->get()
+                                                ->mapWithKeys(fn ($product) => [$product->id => "ID: {$product->id} - {$product->name}"]);
                                         }
-
-                                        return Product::select('id', 'name')->pluck('name', 'id');
+                                        // For IN/INIT, show all active products
+                                        return Product::select('id', 'name')
+                                        ->where('is_active', true)
+                                        ->get()
+                                        ->mapWithKeys(fn ($product) => [$product->id => "ID: {$product->id} - {$product->name}"]);
                                     })
                                     ->required()
                                     ->searchable()
@@ -102,6 +108,7 @@ class BulkStockMovement extends Page implements HasForms
                         'product_id' => $product['product_id'],
                         'warehouse_id' => $data['warehouse_id'],
                         'type' => $data['Type'],
+                        'admin_id'=>auth()->guard('admin')->id(),
                         'quantity' => $product['quantity'],
                     ]);
                 }

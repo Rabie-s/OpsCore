@@ -24,14 +24,18 @@ Route::prefix('/')->group(function () {
 
 
     Route::middleware('auth:admin')->group(function () {
+
         Route::get('/warehouse/{id}', [WarehouseController::class, 'show'])->name('admin.warehouse');
         Route::get('/warehouses', [WarehouseController::class, 'allWarehouses'])->name('admin.warehouse.allwarehouses');
         Route::post('/warehouse/withdraw', [WarehouseController::class, 'withdraw'])->name('admin.warehouse.withdraw');
+
+        Route::get('/export/warehouse-stock-report', [ReportController::class, 'warehouseStockReport'])->name('warehouseStockReport');
+        Route::get('/export/warehouse-transaction-report', [ReportController::class, 'warehouseTransactionReport'])->name('warehouseTransactionReport');
+        Route::get('/export/devices-report', [ReportController::class, 'devicesReport'])->name('devicesReport');
+
     });
 
-    Route::get('/export/warehouse-stock-report', [ReportController::class, 'warehouseStockReport'])->name('warehouseStockReport');
-    Route::get('/export/warehouse-transaction-report', [ReportController::class, 'warehouseTransactionReport'])->name('warehouseTransactionReport');
-    Route::get('/export/devices-report', [ReportController::class, 'devicesReport'])->name('devicesReport');
+
 });
 
 

@@ -29,9 +29,4 @@ import { computed } from "vue";
 const page = usePage()
 const user = computed(() => page.props.auth.admin ?? null)
 
-
-function logout() {
-    router.post(route('admin.auth.logout'))
-}
-
 </script>

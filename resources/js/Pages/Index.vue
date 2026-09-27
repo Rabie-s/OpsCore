@@ -34,5 +34,5 @@
 </template>
 
 <script setup>
-// Simple landing page
+console.log(import.meta.env.VITE_API_URL) 
 </script>

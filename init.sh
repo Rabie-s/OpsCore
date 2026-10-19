@@ -11,4 +11,7 @@ php artisan shield:generate --all --panel=admin
 echo "Seeding database..."
 php artisan db:seed --force
 
+echo "Linking storage..."
+php artisan storage:link
+
 echo "Initialization completed successfully!"

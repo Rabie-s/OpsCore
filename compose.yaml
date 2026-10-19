@@ -8,6 +8,8 @@ services:
       - .env
     depends_on:
       - opscore-mysql
+    volumes:
+      - opscore-storage:/var/www/html/storage
   
   opscore-mysql:
     image: mysql:8.4
@@ -32,6 +34,7 @@ services:
     
 volumes:
  opscore-mysql-data:
+ opscore-storage:
 
 networks:
   opscore-laravel-network:

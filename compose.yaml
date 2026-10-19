@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
+    depends_on:
+      - opscore-mysql
+  
+  opscore-mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: "1945"
+    volumes:
+      - opscore-mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=opscore-mysql
+    depends_on:
+      - opscore-mysql
+
+    
+volumes:
+ opscore-mysql-data:
+
+networks:
+  opscore-laravel-network:
+    driver: bridge

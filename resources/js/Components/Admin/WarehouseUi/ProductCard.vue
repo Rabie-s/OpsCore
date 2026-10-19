@@ -37,8 +37,5 @@ const props = defineProps({
 
 const emit = defineEmits(['quantity-changed'])
 
-const imageUrl = computed(() => {
-  const baseUrl = import.meta.env.VITE_APP_URL || 'http://127.0.0.1:8000'
-  return `${baseUrl}/storage/${props.product.image}`
-})
+const imageUrl = computed(() => `/storage/${props.product.image}`)
 </script>

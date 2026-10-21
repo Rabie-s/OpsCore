@@ -27,6 +27,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY . .

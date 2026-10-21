@@ -49,7 +49,8 @@ class ProductForm
                         FileUpload::make('image')
                             ->disk('public')
                             ->directory('products')
-                            ->image(),
+                            ->image()
+                            ->optimize('webp',50),
                         Textarea::make('note')
                             ->columnSpanFull(),
                         Toggle::make('is_active')

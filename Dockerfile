@@ -1,4 +1,4 @@
-FROM php:8.4-apache
+FROM php:8.4.27-apache
 
 COPY --from=node:24 /usr/local/bin/node /usr/local/bin/
 COPY --from=node:24 /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -37,6 +37,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 RUN composer install --no-dev --optimize-autoloader
+
+RUN php artisan storage:link
 
 RUN npm install && npm run build
 

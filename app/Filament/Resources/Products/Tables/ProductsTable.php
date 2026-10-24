@@ -47,8 +47,7 @@ class ProductsTable
                     ->relationship('productType', 'name')
                     ->label('Product Type'),
                 SelectFilter::make('warehouse')
-                    ->query(fn($query) => $query->whereHas('warehouses'))
-                    ->options(Warehouse::pluck('name', 'id'))
+                    ->relationship('warehouses', 'name')
                     ->label('Warehouse'),
             ])
             ->recordActions([
@@ -59,7 +58,7 @@ class ProductsTable
                 Action::make('warehouseReport')
                     ->label('تقرير المخازن')
                     ->url(fn() => route('warehouseStockReport')),
-                    Action::make('warehouseReport')
+                Action::make('warehouseReport')
                     ->label('تقرير الحركات على المخازن')
                     ->url(fn() => route('warehouseTransactionReport')),
                 BulkActionGroup::make([

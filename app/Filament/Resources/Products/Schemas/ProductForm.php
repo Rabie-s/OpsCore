@@ -50,7 +50,8 @@ class ProductForm
                             ->disk('public')
                             ->directory('products')
                             ->image()
-                            ->optimize('webp',50),
+                            ->optimize('webp',50)
+                            ->resize(50),
                         Textarea::make('note')
                             ->columnSpanFull(),
                         Toggle::make('is_active')

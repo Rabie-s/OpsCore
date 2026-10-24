@@ -7,7 +7,6 @@ use App\Models\Counter;
 use App\Models\Device;
 use App\Models\DeviceType;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use UnitEnum;
@@ -102,7 +102,10 @@ class DeviceResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('Department')
+                ->relationship('counter.department','name')
+                ->searchable()
+                ->preload()
             ])
             ->recordActions([
                 ViewAction::make(),

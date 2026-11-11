@@ -1,50 +1,177 @@
 <template>
-  <div class="min-h-screen bg-base-200/50" dir="rtl">
-    <div class="max-w-4xl mx-auto px-4 py-6 md:py-10">
+  <main class="min-h-screen bg-base-200/50" dir="rtl">
 
-      <!-- Header with back button -->
-      <div class="mb-6">
-        <Link :href="route('admin.warehouse.allwarehouses')" class="btn btn-ghost btn-sm gap-2 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    <div class="max-w-3xl mx-auto px-3 sm:px-5 py-5 sm:py-8">
+
+      <!-- Back Navigation -->
+      <div class="mb-5">
+        <Link
+          :href="route('admin.warehouse.allwarehouses')"
+          class="btn btn-ghost btn-sm gap-2 px-2"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
           </svg>
-          العودة
+          العودة للمخازن
         </Link>
+      </div>
 
-        <div class="bg-base-100 border border-base-300 rounded-2xl shadow-sm px-6 py-5">
-          <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-2">إدارة المخزون</p>
-          <h1 class="text-2xl font-bold text-base-content">مخزن {{ warehouse.name }}</h1>
+      <!-- Header -->
+      <section
+        class="bg-base-100 border border-base-300/70
+               rounded-2xl shadow-sm p-4 sm:p-6 mb-5"
+      >
+        <div class="flex items-center gap-3">
+
+          <div
+            class="w-12 h-12 rounded-xl bg-primary/10
+                   flex items-center justify-center text-primary shrink-0"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+                d="M3 7.5L12 3l9 4.5M3 7.5v9L12 21l9-4.5v-9M3 7.5l9 4.5m0 9v-9m0 0l9-4.5"
+              />
+            </svg>
+          </div>
+
+          <div class="min-w-0">
+            <p class="text-xs font-medium text-base-content/45 mb-1">
+              إدارة المخزون
+            </p>
+
+            <h1 class="text-xl sm:text-2xl font-bold text-base-content break-words">
+              {{ warehouse.name }}
+            </h1>
+          </div>
+
         </div>
-      </div>
+      </section>
 
-      <Alert v-if="page.flash.message" type="success" :message="page.flash.message" class="mb-4" />
+      <!-- Alert -->
+      <Alert
+        v-if="page.flash.message"
+        type="success"
+        :message="page.flash.message"
+        class="mb-5"
+      />
 
-      <div v-if="products.length" class="flex flex-col gap-4">
-        <ProductCard
-          v-for="product in products"
-          :key="product.id"
-          :product="product"
-          :quantity="items[product.id]"
-          @quantity-changed="items[product.id] = $event"
-        />
+      <!-- Products -->
+      <section v-if="products.length">
 
-        <button @click="submit" class="btn btn-primary w-full rounded-xl mt-2">تأكيد الصرف</button>
-      </div>
+        <div class="flex items-center justify-between mb-4 px-1">
 
-      <div v-else class="bg-base-100 border border-dashed border-base-300 rounded-2xl py-20 flex flex-col items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-base-content/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M17.25 6.75l-6-6-6 6m12-6v18a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 20.25V6.75" />
-        </svg>
-        <h3 class="font-semibold text-base-content/50">لا توجد مواد في المخزن</h3>
-        <p class="text-sm text-base-content/40">قم بإضافة مواد جديدة لتظهر هنا</p>
-      </div>
+          <div>
+            <h2 class="font-bold text-base-content">
+              المواد المتوفرة
+            </h2>
+            <p class="text-xs text-base-content/45 mt-1">
+              حدد الكميات التي تريد صرفها
+            </p>
+          </div>
+
+          <span class="badge badge-primary badge-outline font-semibold">
+            {{ products.length }} مادة
+          </span>
+
+        </div>
+
+        <div class="space-y-3">
+          <ProductCard
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+            :quantity="items[product.id]"
+            @quantity-changed="items[product.id] = $event"
+          />
+        </div>
+
+        <!-- Submit -->
+        <div class="mt-5 sticky bottom-3 z-20">
+          <button
+            @click="submit"
+            :disabled="!hasSelectedItems"
+            class="btn btn-primary w-full rounded-xl min-h-12
+                   shadow-lg text-base font-bold"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+
+            تأكيد صرف المواد
+          </button>
+        </div>
+
+      </section>
+
+      <!-- Empty State -->
+      <section
+        v-else
+        class="bg-base-100 border border-dashed border-base-300
+               rounded-2xl py-16 px-5 flex flex-col items-center
+               justify-center text-center"
+      >
+        <div
+          class="w-16 h-16 rounded-2xl bg-base-200
+                 flex items-center justify-center mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-base-content/25"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M17.25 6.75l-6-6-6 6"
+            />
+          </svg>
+        </div>
+
+        <h3 class="font-bold text-base-content">
+          لا توجد مواد في المخزن
+        </h3>
+
+        <p class="text-sm text-base-content/45 mt-2">
+          قم بإضافة مواد جديدة لتظهر هنا.
+        </p>
+      </section>
 
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { router, usePage, Link } from '@inertiajs/vue3'
 import Alert from '@/Components/Admin/UI/Alert.vue'
 import ProductCard from '@/Components/Admin/WarehouseUi/ProductCard.vue'
@@ -57,6 +184,10 @@ const props = defineProps({
 
 const page = usePage()
 const items = reactive({})
+
+const hasSelectedItems = computed(() => {
+  return Object.values(items).some(quantity => Number(quantity) > 0)
+})
 
 onMounted(() => {
   props.products.forEach(product => {
@@ -74,6 +205,9 @@ function submit() {
       })
     }
   })
-  props.products.forEach(product => items[product.id] = 0)
+
+  props.products.forEach(product => {
+    items[product.id] = 0
+  })
 }
 </script>
